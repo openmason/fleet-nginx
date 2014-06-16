@@ -9,6 +9,7 @@ MAINTAINER el aras<openmason@gmail.com>
 
 # env variables
 ENV nginx stable
+#ENV DEPLOY_USER deploy
 
 # ppa repositories
 RUN \
@@ -18,6 +19,7 @@ RUN \
 RUN \
   apt-get update; \
   apt-get install -yq nginx --no-install-recommends; \
+  pip install --upgrade circus-web; \
   apt-get clean
 
 # Remove the default Nginx configuration file
@@ -29,10 +31,21 @@ RUN \
 # add "daemon off;" 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
-# Expose ports
-EXPOSE 80
+# create deploy user
+#RUN useradd -m -d /home/$DEPLOY_USER -p $DEPLOY_USER $DEPLOY_USER && adduser $DEPLOY_USER sudo && chsh -s /bin/bash $DEPLOY_USER
+
+# copy default config files
+ADD nginx/sites-enabled /etc/nginx/sites-enabled
+ADD circus/server.ini /etc/circus.ini
+#ADD circus/circus.conf /etc/init/circus.conf
+
+# mountable directories
+#VOLUME ["/var/log/nginx", "/etc/nginx/sites-enabled"]
 
 # Set the default command to execute
 # when creating a new container
-CMD service nginx start
+CMD ["/usr/local/bin/circusd", "/etc/circus.ini"]
+
+# Expose ports
+EXPOSE 22 80 443
 
