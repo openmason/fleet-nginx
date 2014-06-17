@@ -9,7 +9,6 @@ MAINTAINER el aras<openmason@gmail.com>
 
 # env variables
 ENV nginx stable
-#ENV DEPLOY_USER deploy
 
 # ppa repositories
 RUN \
@@ -30,9 +29,6 @@ RUN \
 
 # add "daemon off;" 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-
-# create deploy user
-#RUN useradd -m -d /home/$DEPLOY_USER -p $DEPLOY_USER $DEPLOY_USER && adduser $DEPLOY_USER sudo && chsh -s /bin/bash $DEPLOY_USER
 
 # copy default config files
 ADD nginx/sites-enabled /etc/nginx/sites-enabled
