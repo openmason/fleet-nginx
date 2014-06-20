@@ -4,11 +4,12 @@
 # docker build -t openmason/fleet-nginx .
 #
 #
-FROM openmason/fleet-pier:latest
+FROM openmason/fleet-base:latest
 MAINTAINER el aras<openmason@gmail.com>
 
 # env variables
 ENV nginx stable
+ENV DEPLOY_USER openmason
 
 # ppa repositories
 RUN \
@@ -17,30 +18,27 @@ RUN \
 # Install nginx
 RUN \
   apt-get update; \
+  ssh-import-id gh:$DEPLOY_USER; \
   apt-get install -yq nginx --no-install-recommends; \
-  pip install --upgrade circus-web; \
   apt-get clean
 
 # Remove the default Nginx configuration file
-#RUN rm -v /etc/nginx/nginx.conf
+RUN rm -v /etc/nginx/nginx.conf
 
-# Copy a configuration file from the current directory
-#ADD nginx.conf /etc/nginx/
+# copy default config files
+ADD nginx/nginx.conf /etc/nginx/nginx.conf
+ADD nginx/sites-enabled /etc/nginx/sites-enabled
+ADD supervisor/supervisord.conf /etc/supervisord.conf
 
 # add "daemon off;" 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-
-# copy default config files
-ADD nginx/sites-enabled /etc/nginx/sites-enabled
-ADD circus/server.ini /etc/circus.ini
-#ADD circus/circus.conf /etc/init/circus.conf
 
 # mountable directories
 #VOLUME ["/var/log/nginx", "/etc/nginx/sites-enabled"]
 
 # Set the default command to execute
 # when creating a new container
-CMD ["/usr/local/bin/circusd", "/etc/circus.ini"]
+CMD ["/usr/local/bin/supervisord"]
 
 # Expose ports
 EXPOSE 22 80 443
