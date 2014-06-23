@@ -1,5 +1,5 @@
 upstream circusweb_server {
-  server localhost:9001;
+  server localhost:8080;
 }
 
 server {

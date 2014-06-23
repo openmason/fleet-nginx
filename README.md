@@ -1,8 +1,11 @@
-# Latest nginx container
-Linux (Ubuntu) image running latest nginx server. The system runs the following daemons
+# Fleet-nginx
+Linux (Ubuntu) image running latest stable nginx server. The system runs the following daemons, managed by circus
  * ssh
  * nginx
- * supervisor
+
+## fcgi/wsgi server
+ * php5-fpm
+ * chaussette 
 
 # ssh
 Please edit the Dockerfile to set the ssh key/deploy user
