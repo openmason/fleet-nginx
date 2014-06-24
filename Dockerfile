@@ -19,6 +19,7 @@ RUN \
   ssh-import-id gh:$DEPLOY_USER; \
   apt-get install -yq nginx php5-fpm --no-install-recommends; \
   pip install circus-web chaussette; \
+  npm install -g chevron; \
   apt-get clean
 
 # Remove the default Nginx configuration file
@@ -41,4 +42,3 @@ CMD ["/usr/local/bin/circusd", "/etc/circusd.conf"]
 
 # Expose ports
 EXPOSE 22 80 443
-
