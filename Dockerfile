@@ -18,8 +18,7 @@ RUN \
   apt-get update; \
   ssh-import-id gh:$DEPLOY_USER; \
   apt-get install -yq nginx php5-fpm --no-install-recommends; \
-  pip install circus-web chaussette; \
-  npm install -g chevron; \
+  pip install --upgrade circus-web chaussette; \
   apt-get clean
 
 # Remove the default Nginx configuration file
