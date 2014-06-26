@@ -8,7 +8,6 @@ FROM openmason/fleet-base:latest
 MAINTAINER el aras<openmason@gmail.com>
 
 # env variables
-ENV DEPLOY_USER openmason
 
 # ppa repositories
 RUN add-apt-repository ppa:nginx/stable
@@ -16,7 +15,6 @@ RUN add-apt-repository ppa:nginx/stable
 # Install nginx
 RUN \
   apt-get update; \
-  ssh-import-id gh:$DEPLOY_USER; \
   apt-get install -yq nginx php5-fpm --no-install-recommends; \
   pip install --upgrade circus-web chaussette; \
   apt-get clean
@@ -25,9 +23,10 @@ RUN \
 RUN rm -v /etc/nginx/nginx.conf
 
 # copy default config files
-ADD nginx/nginx.conf     /etc/nginx/nginx.conf
-ADD nginx/sites-enabled  /etc/nginx/sites-enabled
-ADD circus/circusd.conf  /etc/circusd.conf
+ADD nginx/nginx.conf              /etc/nginx/nginx.conf
+ADD nginx/sites-enabled           /etc/nginx/sites-enabled
+ADD circus/conf.d/nginx.conf      /etc/circus/conf.d/nginx.conf
+ADD circus/conf.d/circusweb.conf  /etc/circus/conf.d/circusweb.conf
 
 # add "daemon off;" 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
@@ -40,4 +39,5 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 CMD ["/usr/local/bin/circusd", "/etc/circusd.conf"]
 
 # Expose ports
-EXPOSE 22 80 443
+EXPOSE 80 443
+
