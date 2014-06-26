@@ -25,6 +25,7 @@ RUN rm -v /etc/nginx/nginx.conf
 # copy default config files
 ADD nginx/nginx.conf              /etc/nginx/nginx.conf
 ADD nginx/sites-enabled           /etc/nginx/sites-enabled
+ADD logrotate/nginx               /etc/logrotate.d/nginx
 ADD circus/conf.d/nginx.conf      /etc/circus/conf.d/nginx.conf
 ADD circus/conf.d/circusweb.conf  /etc/circus/conf.d/circusweb.conf
 

@@ -1,0 +1,12 @@
+# set it to weekly
+/var/log/nginx/*log {
+    weekly
+    rotate 52
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+        [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+    endscript
+}
