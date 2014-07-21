@@ -36,10 +36,9 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 # mountable directories
 #VOLUME ["/var/log/nginx", "/etc/nginx/sites-enabled"]
 
-# Set the default command to execute
-# when creating a new container
-CMD ["/usr/local/bin/circusd", "/etc/circusd.conf"]
-
 # Expose ports
 EXPOSE 80 443
 
+# Set the default command to execute
+# when creating a new container
+CMD ["/usr/local/bin/circusd", "/etc/circusd.conf"]
