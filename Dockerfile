@@ -28,7 +28,7 @@ ADD nginx/sites-enabled           /etc/nginx/sites-enabled
 ADD logrotate/nginx               /etc/logrotate.d/nginx
 ADD circus/conf.d/nginx.conf      /etc/circus/conf.d/nginx.conf
 ADD circus/conf.d/circusweb.conf  /etc/circus/conf.d/circusweb.conf
-ADD consul.d/consul.json          /etc/consul.d/consul.json
+#ADD consul.d/consul.json          /etc/consul.d/consul.json
 
 # add "daemon off;" 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
